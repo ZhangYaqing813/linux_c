@@ -29,16 +29,35 @@ int parse_file(char *text, callback cb, const void *data) {
     //逐行进行进行遍历，不为空就继续
     while (line != NULL) {
         //行处理，按照 ： 进行拆分，
+        printf("line = %s\n", line);
         char *colon = strchr(line,':');
         if (colon) {
+            printf("看一下colon[0] 的值是什么：%s\n",colon);
             colon[0] = '\0';
+            printf("=======colon 的值是什么：%s\n",colon);
+            printf("处理后的line = %s\n",line);
             char *key = line;
-            char *value = colon + 1;
 
+            printf("colon+1 = %s\n",colon+1);
+            printf("\n");
+            char *value = colon + 1;
+            // 如果是空就跳过
             while (value == ' ' || value == '\t') {
                 value++;
             }
-            char *end = key + strlen(key) - 1;
+
+/*
+            *写法	输出内容	安全
+            printf("%p", &key)	key 这个指针变量自己的内存地址	✅
+            printf("%c", *key)	key 指向的字符串的第一个字符	✅
+            printf("%s", key)	key 指向的整个字符串	✅
+            printf(key)	和 printf("%s", key) 一样，但遇到 % 会炸	❌
+ */
+
+
+            char *end = key + strlen(key) - 1;//
+            //输出一下看看
+            printf("end 内容： %s\n",end );
             while (end > key && (*end == ' ' || *end == '\t')) {
                 *end = '\0';
                 end --;
