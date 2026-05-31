@@ -16,7 +16,6 @@ struct proc_info {
     // ... 可以继续添加
 };
 
-
 int parse_file(char *text, callback cb, const void *data) {
     if (!text || !cb) {
         printf("parse_file: invalid arguments\n");
@@ -53,8 +52,6 @@ int parse_file(char *text, callback cb, const void *data) {
             printf("%s", key)	key 指向的整个字符串	✅
             printf(key)	和 printf("%s", key) 一样，但遇到 % 会炸	❌
  */
-
-
             char *end = key + strlen(key) - 1;//
             //输出一下看看
             printf("end 内容： %s\n",end );
@@ -77,7 +74,6 @@ int parse_file(char *text, callback cb, const void *data) {
     return 0;
 }
 
-
 int print_kv(const char *key, const char *value,void *data) {
 
     (void)data;
@@ -85,8 +81,6 @@ int print_kv(const char *key, const char *value,void *data) {
     return 0;
 
 }
-
-
 
 int fill_proc_info( const  char *key, const char *value, void *data) {
     //强制类型转换
