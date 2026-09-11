@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <time.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <netinet/in.h>
 
@@ -185,14 +186,21 @@ int main(void) {
         return -1;
     }
 
+    struct sockaddr_in cliaddr = {0};
+    socklen_t casize = sizeof(cliaddr);
+    char ipaddr[16];
 
     for (;;) {
-        connfd = accept(sockfd,NULL,NULL);
+
+        connfd = accept(sockfd,(struct sockaddr *)&cliaddr ,&casize);
         if (connfd < 0) {
             perror("accept error");
             continue;
 
         }
+        inet_ntop(AF_INET,&cliaddr.sin_addr,ipaddr,sizeof(ipaddr));
+        printf("accept client ip addr %s\n, port is %d \n ",ipaddr,ntohs(cliaddr.sin_port));
+
         char msg[1024];
         int ln = snprintf(msg,sizeof(msg),"Process Name: %s\nState: %s\nPID: %d\nVmRSS: %d kB\n ",
                        p.Name, p.State, p.Pid, p.VmRSS);
@@ -212,6 +220,8 @@ int main(void) {
             perror("write error");
         }
         close(connfd);
+
+       // printf("client ip = %s, port = %s\n ",cliaddr.sa_data, cliaddr.sa_family);
         /*
         char bf[1024];
 
